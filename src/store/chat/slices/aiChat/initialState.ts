@@ -11,6 +11,7 @@ export interface ChatAIChatState {
    */
   messageRAGLoadingIds: string[];
   pluginApiLoadingIds: string[];
+  threadInputMessage: string;
   /**
    * the tool calling stream ids
    */
@@ -23,5 +24,6 @@ export const initialAiChatState: ChatAIChatState = {
   inputMessage: '',
   messageRAGLoadingIds: [],
   pluginApiLoadingIds: [],
+  threadInputMessage: '',
   toolCallingStreamIds: {},
 };

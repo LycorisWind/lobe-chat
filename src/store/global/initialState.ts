@@ -43,6 +43,7 @@ export interface SystemStatus {
   showFilePanel?: boolean;
   showSessionPanel?: boolean;
   showSystemRole?: boolean;
+  threadInputHeight: number;
   zenMode?: boolean;
 }
 
@@ -68,6 +69,7 @@ export const INITIAL_STATUS = {
   showFilePanel: true,
   showSessionPanel: true,
   showSystemRole: false,
+  threadInputHeight: 200,
   zenMode: false,
 } satisfies SystemStatus;
 

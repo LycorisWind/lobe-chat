@@ -1,9 +1,10 @@
 import { ActionIconGroupItems } from '@lobehub/ui/es/ActionIconGroup';
-import { Copy, Edit, ListRestart, RotateCcw, Trash } from 'lucide-react';
+import { Copy, Edit, ListRestart, RotateCcw, Split, Trash } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface ChatListActionsBar {
+  branching: ActionIconGroupItems;
   copy: ActionIconGroupItems;
   del: ActionIconGroupItems;
   delAndRegenerate: ActionIconGroupItems;
@@ -17,6 +18,11 @@ export const useChatListActionsBar = (): ChatListActionsBar => {
 
   return useMemo(
     () => ({
+      branching: {
+        icon: Split,
+        key: 'branching',
+        label: t('branching', { defaultValue: 'Create Sub Topic' }),
+      },
       copy: {
         icon: Copy,
         key: 'copy',

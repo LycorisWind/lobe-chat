@@ -84,6 +84,13 @@
       "when": 1731138670427,
       "tag": "0011_add_topic_history_summary",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1731252533964,
+      "tag": "0012_redundant_starjammers",
+      "breakpoints": true
     }
   ],
   "version": "6"

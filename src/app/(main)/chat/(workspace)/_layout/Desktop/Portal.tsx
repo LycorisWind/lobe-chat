@@ -32,16 +32,21 @@ const useStyles = createStyles(({ css, token, isDarkMode }) => ({
     height: 100%;
     background: ${isDarkMode ? rgba(token.colorBgElevated, 0.8) : token.colorBgElevated};
   `,
+
+  thread: css`
+    background: ${token.colorBgLayout};
+  `,
 }));
 
 const PortalPanel = memo(({ children }: PropsWithChildren) => {
-  const { styles } = useStyles();
+  const { styles, cx } = useStyles();
   const { md = true } = useResponsive();
 
-  const [showInspector, showToolUI, showArtifactUI] = useChatStore((s) => [
+  const [showInspector, showToolUI, showArtifactUI, showThread] = useChatStore((s) => [
     chatPortalSelectors.showPortal(s),
     chatPortalSelectors.showPluginUI(s),
     chatPortalSelectors.showArtifactUI(s),
+    chatPortalSelectors.showThread(s),
   ]);
 
   return (
@@ -54,7 +59,9 @@ const PortalPanel = memo(({ children }: PropsWithChildren) => {
         expand
         hanlderStyle={{ display: 'none' }}
         maxWidth={CHAT_PORTAL_MAX_WIDTH}
-        minWidth={showArtifactUI || showToolUI ? CHAT_PORTAL_TOOL_UI_WIDTH : CHAT_PORTAL_WIDTH}
+        minWidth={
+          showArtifactUI || showToolUI || showThread ? CHAT_PORTAL_TOOL_UI_WIDTH : CHAT_PORTAL_WIDTH
+        }
         mode={md ? 'fixed' : 'float'}
         placement={'right'}
         showHandlerWhenUnexpand={false}
@@ -68,7 +75,7 @@ const PortalPanel = memo(({ children }: PropsWithChildren) => {
             minWidth: CHAT_PORTAL_WIDTH,
           }}
         >
-          <Flexbox className={styles.panel}>{children}</Flexbox>
+          <Flexbox className={cx(styles.panel, showThread && styles.thread)}>{children}</Flexbox>
         </DraggablePanelContainer>
       </DraggablePanel>
     )

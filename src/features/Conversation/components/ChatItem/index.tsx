@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useAgentStore } from '@/store/agent';
 import { agentSelectors } from '@/store/agent/selectors';
 import { useChatStore } from '@/store/chat';
-import { chatSelectors } from '@/store/chat/selectors';
+import { chatPortalSelectors, chatSelectors } from '@/store/chat/selectors';
 import { useSessionStore } from '@/store/session';
 import { sessionMetaSelectors } from '@/store/session/selectors';
 import { useUserStore } from '@/store/user';
@@ -26,6 +26,7 @@ import {
 } from '../../Messages';
 import History from '../History';
 import { markdownElements } from '../MarkdownElements';
+import ThreadDivider from '../ThreadDivider';
 import ActionsBar from './ActionsBar';
 import { processWithArtifact } from './utils';
 
@@ -50,7 +51,7 @@ export interface ChatListItemProps {
   showThreadDivider?: boolean;
 }
 
-const Item = memo<ChatListItemProps>(({ index, id, hideActionBar }) => {
+const Item = memo<ChatListItemProps>(({ index, id, hideActionBar, showThreadDivider }) => {
   const fontSize = useUserStore(userGeneralSettingsSelectors.fontSize);
   const { t } = useTranslation('common');
   const { styles, cx } = useStyles();
@@ -140,7 +141,10 @@ const Item = memo<ChatListItemProps>(({ index, id, hideActionBar }) => {
 
   const error = useErrorContent(item?.error);
 
-  const [historyLength] = useChatStore((s) => [chatSelectors.currentChats(s).length]);
+  const [historyLength, threadMessageId] = useChatStore((s) => [
+    chatSelectors.currentChats(s).length,
+    chatPortalSelectors.threadMessageId(s),
+  ]);
 
   const enableHistoryDivider = useAgentStore((s) => {
     const config = agentSelectors.currentAgentChatConfig(s);
@@ -151,6 +155,7 @@ const Item = memo<ChatListItemProps>(({ index, id, hideActionBar }) => {
     );
   });
 
+  const enableThreadDivider = showThreadDivider && threadMessageId === id;
   // remove line breaks in artifact tag to make the ast transform easier
   const message =
     !editing && item?.role === 'assistant' ? processWithArtifact(item?.content) : item?.content;
@@ -252,10 +257,13 @@ const Item = memo<ChatListItemProps>(({ index, id, hideActionBar }) => {
           time={item.updatedAt || item.createdAt}
           type={type === 'chat' ? 'block' : 'pure'}
         />
+        {enableThreadDivider && <ThreadDivider />}
       </>
     )
   );
 });
+
+Item.displayName = 'ChatItem';
 
 Item.displayName = 'ChatItem';
 

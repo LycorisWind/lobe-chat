@@ -13,6 +13,7 @@ export interface ChatPortalAction {
   openArtifact: (artifact: PortalArtifact) => void;
   openFilePreview: (portal: PortalFile) => void;
   openMessageDetail: (messageId: string) => void;
+  openThreadCreator: (messageId: string) => void;
   openToolUI: (messageId: string, identifier: string) => void;
   togglePortal: (open?: boolean) => void;
 }
@@ -50,6 +51,11 @@ export const chatPortalSlice: StateCreator<
     get().togglePortal(true);
 
     set({ portalMessageDetail: messageId }, false, 'openMessageDetail');
+  },
+  openThreadCreator: (messageId) => {
+    get().togglePortal(true);
+
+    set({ portalThreadStartMessageId: messageId }, false, 'openMessageDetail');
   },
   openToolUI: (id, identifier) => {
     get().togglePortal(true);
