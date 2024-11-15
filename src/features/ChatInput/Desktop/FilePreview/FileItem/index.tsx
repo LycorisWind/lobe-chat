@@ -6,10 +6,10 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Center, Flexbox } from 'react-layout-kit';
 
-import { UploadDetail } from '@/features/ChatInput';
 import { useFileStore } from '@/store/file';
 import { UploadFileItem } from '@/types/files/upload';
 
+import UploadDetail from '../../../components/UploadDetail';
 import Content from './Content';
 import { FILE_ITEM_SIZE } from './style';
 
